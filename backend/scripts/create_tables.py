@@ -1,5 +1,6 @@
 from app.models.fourth_down_play import FourthDownPlay
-from app.database import Base,engine
+from app.models.user import User
+from app.database import Base, engine
 
 
 def main(): 

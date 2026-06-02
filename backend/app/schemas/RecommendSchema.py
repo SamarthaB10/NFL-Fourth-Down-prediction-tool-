@@ -82,10 +82,19 @@ class RecommendationResponse(BaseModel):
 
 
 
-class RecommendMLRequest(BaseModel): 
-    yardline_100:int = Field(..., le = 99, ge=1, description="Yard line of the play, 5 yard line is 5 yards from endzone ")
-    ydstogo :int = Field(...,le= 50,ge=1, description= "4th and 5, 4th and 10 etc")
-    
-class RecommendMLResponse(BaseModel): 
+class RecommendMLRequest(BaseModel):
+    yardline_100: int = Field(..., ge=1, le=99, description="Yards from opponent end zone")
+    ydstogo: int = Field(..., ge=1, le=50, description="Yards to gain for first down")
+    qtr: int = Field(4, ge=1, le=5, description="Quarter (5 = overtime)")
+    game_seconds_remaining: int = Field(
+        900, ge=0, le=3600, description="Seconds left in game"
+    )
+    score_differential: int = Field(
+        0, ge=-50, le=50, description="Offense score minus defense score"
+    )
+
+
+class RecommendMLResponse(BaseModel):
     recommendation: str = Field(..., description="ML recommendation")
-    predicted_epa : Dict[str,float]
+    predicted_epa: Dict[str, float]
+    input: RecommendMLRequest

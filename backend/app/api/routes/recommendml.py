@@ -3,15 +3,24 @@ from app.schemas.RecommendSchema import RecommendMLRequest, RecommendMLResponse
 from app.services.model_service import predict_epa_options, recommend
 router = APIRouter() 
 
-@router.post("/recommended/ml",response_model=RecommendMLResponse)
-def getML_Recommendation(inp:RecommendMLRequest): 
-    yardLine100 = inp.yardline_100
-    ydstogo = inp.ydstogo
-    
-    predictedepa = predict_epa_options(yardLine100,ydstogo)
-    recommendation = recommend(yardLine100,ydstogo)
-    return{
+@router.post("/recommended/ML", response_model=RecommendMLResponse)
+def getML_Recommendation(inp: RecommendMLRequest):
+    predictedepa = predict_epa_options(
+        inp.yardline_100,
+        inp.ydstogo,
+        inp.qtr,
+        inp.game_seconds_remaining,
+        inp.score_differential,
+    )
+    recommendation = recommend(
+        inp.yardline_100,
+        inp.ydstogo,
+        inp.qtr,
+        inp.game_seconds_remaining,
+        inp.score_differential,
+    )
+    return {
         "recommendation": recommendation,
-        "predicted_epa" :predictedepa,
-        
+        "predicted_epa": predictedepa,
+        "input": inp,
     }

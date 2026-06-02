@@ -1,0 +1,10 @@
+{
+  "publishes": {
+    "evoked-nebula-4jqq": {
+      "siteUrl": "https://evoked-nebula-4jqq.here.now/",
+      "claimToken": "564c5722ed7695df4f402dedc4b523cbd0800a1b217bd45a2a053564969b51a8",
+      "claimUrl": "https://here.now/claim?slug=evoked-nebula-4jqq&token=564c5722ed7695df4f402dedc4b523cbd0800a1b217bd45a2a053564969b51a8",
+      "expiresAt": "2026-06-03T22:50:30.988Z"
+    }
+  }
+}
