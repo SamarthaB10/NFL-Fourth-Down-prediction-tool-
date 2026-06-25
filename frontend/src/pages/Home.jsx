@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import heroImage from "../assets/hero.png";
+import lamarJackson from "../assets/lamar-jackson.png";
 
 const FEATURES = [
   {
@@ -14,12 +14,6 @@ const FEATURES = [
     to: "/tool",
     state: { tab: "ml" },
     cta: "Run ML",
-  },
-  {
-    title: "Drive simulator",
-    text: "Pick go, punt, or field goal and simulate the rest of the possession with scoring outcomes.",
-    to: "/simulate",
-    cta: "Simulate drive",
   },
   {
     title: "Play explorer",
@@ -44,19 +38,19 @@ export default function Home() {
             Smarter <span className="highlight">4th down</span> decisions
           </h2>
           <p className="home-hero-text">
-            Historical data, ML with full game context (quarter, clock, score), and a
-            possession simulator — all in one place.
+            Historical data and ML with full game context: quarter, clock,
+            score, field position, and yards to go.
           </p>
           <div className="home-hero-actions">
             <Link to="/tool" className="btn-primary btn-primary--inline">
               Open decision tool
             </Link>
-            <Link to="/simulate" className="btn-retry">
-              Run simulator
+            <Link to="/plays" className="btn-retry">
+              Browse plays
             </Link>
           </div>
         </div>
-        <img src={heroImage} alt="" className="home-hero-image" />
+        <img src={lamarJackson} alt="" className="home-hero-image" />
       </section>
 
       <section className="home-features">
@@ -79,10 +73,7 @@ export default function Home() {
             <strong>Historical or ML</strong> — compare observed EPA or model-predicted EPA for each option.
           </li>
           <li>
-            <strong>Simulate your call</strong> — choose go, punt, or field goal and run drive simulations.
-          </li>
-          <li>
-            <strong>Decide with data</strong> — charts, play logs, and mean points on the drive.
+            <strong>Decide with data</strong> — charts, model outputs, and real play logs.
           </li>
         </ol>
       </section>

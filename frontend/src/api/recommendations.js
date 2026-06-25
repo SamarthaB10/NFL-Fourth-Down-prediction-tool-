@@ -21,10 +21,6 @@ export function getMLRecommendation(payload) {
   });
 }
 
-export function simulatePossession(payload) {
-  return api.post("/simulate/possession", payload);
-}
-
 export function getPlays() {
   return api.get("/plays");
 }

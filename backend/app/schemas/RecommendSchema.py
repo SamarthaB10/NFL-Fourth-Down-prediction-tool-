@@ -85,9 +85,9 @@ class RecommendationResponse(BaseModel):
 class RecommendMLRequest(BaseModel):
     yardline_100: int = Field(..., ge=1, le=99, description="Yards from opponent end zone")
     ydstogo: int = Field(..., ge=1, le=50, description="Yards to gain for first down")
-    qtr: int = Field(4, ge=1, le=5, description="Quarter (5 = overtime)")
-    game_seconds_remaining: int = Field(
-        900, ge=0, le=3600, description="Seconds left in game"
+    qtr: Optional[int] = Field(3, ge=1, le=5, description="Quarter (5 = overtime)")
+    game_seconds_remaining: Optional[int] = Field(
+        1380, ge=0, le=3600, description="Seconds left in game"
     )
     score_differential: int = Field(
         0, ge=-50, le=50, description="Offense score minus defense score"
@@ -97,4 +97,11 @@ class RecommendMLRequest(BaseModel):
 class RecommendMLResponse(BaseModel):
     recommendation: str = Field(..., description="ML recommendation")
     predicted_epa: Dict[str, float]
+
+    # Optional because the API can still serve EPA predictions before
+    # models/coach_decision_model.joblib has been generated locally.
+    Historical_coach_decision: Optional[Dict] = Field(
+        None,
+        description="Historical coach decision prediction and class probabilities",
+    )
     input: RecommendMLRequest
