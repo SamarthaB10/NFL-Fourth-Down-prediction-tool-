@@ -1,5 +1,12 @@
 import { formatClock, formatQuarter, formatScoreDiff, scoreDifferential } from "../utils/game";
 
+function formatDown(down) {
+  if (down === 1) return "1st";
+  if (down === 2) return "2nd";
+  if (down === 3) return "3rd";
+  return "4th";
+}
+
 export default function Scoreboard({
   qtr = 4,
   clockMinutes = 15,
@@ -30,7 +37,7 @@ export default function Scoreboard({
         </div>
       </div>
       <div className="scoreboard-situation">
-        <span>{down}th &amp; {ydstogo}</span>
+        <span>{formatDown(down)} &amp; {ydstogo}</span>
         <span className="scoreboard-dot">·</span>
         <span>Opp {yardline100}</span>
         <span className="scoreboard-dot">·</span>

@@ -5,7 +5,6 @@ import { checkHealth } from "../api/recommendations";
 const NAV = [
   { to: "/", label: "Home", end: true },
   { to: "/tool", label: "Decision tool" },
-  { to: "/simulate", label: "Simulator" },
   { to: "/plays", label: "Plays" },
   { to: "/dashboard", label: "Dashboard" },
 ];

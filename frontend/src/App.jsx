@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import FourthDowntool from "./pages/FourthDowntool";
 import SimilarPlays from "./pages/SimilarPlays";
 import TeamDashboard from "./pages/TeamDashboard";
-import Simulate from "./pages/Simulate";
 import "./App.css";
 
 export default function App() {
@@ -16,7 +15,6 @@ export default function App() {
           <Route path="tool" element={<FourthDowntool />} />
           <Route path="plays" element={<SimilarPlays />} />
           <Route path="dashboard" element={<TeamDashboard />} />
-          <Route path="simulate" element={<Simulate />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

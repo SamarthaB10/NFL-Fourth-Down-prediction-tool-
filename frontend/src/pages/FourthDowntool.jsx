@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import SimulateDrive from "../components/SimulateDrive";
 import HistoricalMode from "./HistoricalMode";
 import MLMode from "./MLMode";
 
 const TABS = [
   { id: "historical", label: "Historical EPA", desc: "Similar plays from past seasons" },
   { id: "ml", label: "ML prediction", desc: "Quarter, clock & score aware" },
-  { id: "simulate", label: "Drive simulator", desc: "Monte Carlo drive outcomes" },
 ];
 
-function FourthDowntoolInner({ initialTab, initialDecision }) {
+function FourthDowntoolInner({ initialTab }) {
   const [tab, setTab] = useState(initialTab ?? "historical");
 
   return (
@@ -18,8 +16,8 @@ function FourthDowntoolInner({ initialTab, initialDecision }) {
       <div className="page-header">
         <h2 className="page-title">4th Down Decision Tool</h2>
         <p className="page-subtitle">
-          Historical EPA lookup, ML predictions with full game context, and a possession
-          simulator for your 4th-down call.
+          Historical EPA lookup and ML predictions with full game context for
+          your 4th-down call.
         </p>
       </div>
 
@@ -41,22 +39,18 @@ function FourthDowntoolInner({ initialTab, initialDecision }) {
 
       {tab === "historical" && <HistoricalMode />}
       {tab === "ml" && <MLMode />}
-      {tab === "simulate" && (
-        <SimulateDrive compact initialDecision={initialDecision} />
-      )}
     </div>
   );
 }
 
 export default function FourthDowntool() {
   const location = useLocation();
-  const navKey = `${location.state?.tab ?? ""}-${location.state?.decision ?? ""}`;
+  const navKey = location.state?.tab ?? "";
 
   return (
     <FourthDowntoolInner
       key={navKey}
       initialTab={location.state?.tab}
-      initialDecision={location.state?.decision}
     />
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getSeasonSummary } from "../api/recommendations";
 import { formatDecision, formatEpa } from "../utils/format";
 import EpaComparisonChart from "../components/EpaComparisionChart";
+import lamarJackson from "../assets/lamar-jackson.png";
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -52,25 +53,28 @@ export default function TeamDashboard() {
 
   return (
     <div className="dashboard-page">
-      <div className="page-header page-header--row">
-        <div>
-          <h2 className="page-title">Season dashboard</h2>
-          <p className="page-subtitle">Aggregate 4th-down EPA by decision for a full season.</p>
+      <div className="dashboard-hero">
+        <div className="dashboard-hero__content">
+          <div>
+            <h2 className="page-title">Season dashboard</h2>
+            <p className="page-subtitle">Aggregate 4th-down EPA by decision for a full season.</p>
+          </div>
+          <div className="input-group input-group--inline">
+            <label htmlFor="dash-season">Season</label>
+            <select
+              id="dash-season"
+              value={season}
+              onChange={handleSeasonChange}
+            >
+              {[CURRENT_YEAR, CURRENT_YEAR - 1, CURRENT_YEAR - 2, CURRENT_YEAR - 3].map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        <div className="input-group input-group--inline">
-          <label htmlFor="dash-season">Season</label>
-          <select
-            id="dash-season"
-            value={season}
-            onChange={handleSeasonChange}
-          >
-            {[CURRENT_YEAR, CURRENT_YEAR - 1, CURRENT_YEAR - 2, CURRENT_YEAR - 3].map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
-        </div>
+        <img src={lamarJackson} alt="" className="dashboard-hero__image" />
       </div>
 
       {loading && (

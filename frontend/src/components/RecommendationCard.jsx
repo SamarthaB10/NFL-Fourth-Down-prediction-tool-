@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { formatDecision, formatEpa } from "../utils/format";
 import { formatClock, formatQuarter, formatScoreDiff } from "../utils/game";
 import EpaComparisonChart from "./EpaComparisionChart";
@@ -82,11 +81,13 @@ export function MLRecommendationCard({ result }) {
   if (!result) return null;
 
   const inp = result.input;
+  const coachDecision = result.Historical_coach_decision ?? result.coach_decision;
   const chartData = {
     go: { avgEpa: result.predicted_epa?.go },
     punt: { avgEpa: result.predicted_epa?.punt },
     field_goal: { avgEpa: result.predicted_epa?.field_goal },
   };
+  const coachProbabilities = coachDecision?.probabilities ?? {};
 
   const clock = inp?.game_seconds_remaining != null
     ? formatClock(Math.floor(inp.game_seconds_remaining / 60), inp.game_seconds_remaining % 60)
@@ -133,16 +134,56 @@ export function MLRecommendationCard({ result }) {
         valueLabel="Predicted EPA"
       />
 
-      <div className="ml-cta">
-        <p>Want to see how that call plays out on a full drive?</p>
-        <Link
-          to="/tool"
-          state={{ tab: "simulate", decision: result.recommendation }}
-          className="btn-retry btn-retry--cta"
-        >
-          Simulate this call →
-        </Link>
-      </div>
+      {coachDecision && (
+        <div className="coach-comparison">
+          <div className="coach-comparison__header">
+            <div>
+              <h3>Coach classifier</h3>
+              <p>Historical coach behavior for this same situation</p>
+            </div>
+            <span className={`coach-decision verdict-${coachDecision.decision}`}>
+              {formatDecision(coachDecision.decision)}
+            </span>
+          </div>
+
+          <div className="coach-model-grid">
+            <div className="coach-model-card">
+              <span className="coach-model-label">EPA model</span>
+              <strong className={`verdict-${result.recommendation}`}>
+                {formatDecision(result.recommendation)}
+              </strong>
+            </div>
+            <div className="coach-model-card">
+              <span className="coach-model-label">Historical coach</span>
+              <strong className={`verdict-${coachDecision.decision}`}>
+                {formatDecision(coachDecision.decision)}
+              </strong>
+            </div>
+          </div>
+
+          <div className="coach-probabilities" aria-label="Coach decision probabilities">
+            {OPTION_KEYS.map((key) => {
+              const probability = coachProbabilities[key] ?? 0;
+              const percent = Math.round(probability * 100);
+
+              return (
+                <div className="coach-probability-row" key={key}>
+                  <div className="coach-probability-meta">
+                    <span>{formatDecision(key)}</span>
+                    <strong>{percent}%</strong>
+                  </div>
+                  <div className="coach-probability-track">
+                    <div
+                      className={`coach-probability-fill coach-probability-fill--${key}`}
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
